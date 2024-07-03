@@ -18,19 +18,19 @@
         </ul>
         <ul>
           <li><a href="#">Mostrar Imágenes</a></li>
-          <li><a href="#">Añadir Imagen</a></li>
+          <li><a href="/add-image-form">Añadir Imagen</a></li>
         </ul>
       </nav>
     </header>
-    <main>
-      <ul class="grid">
-            <!-- Estos tags significa que lo que viene a continuación es puro código JavaScript-->
-             <% images.forEach( i => { %>
-                <li>
-                    <%= i.title %>
-                </li>
-             <% }) %>
-      </ul>
+    <main class="container">
+          <section class="grid">
+          <!-- Estos tags significa que lo que viene a continuación es puro código JavaScript-->
+        <% images.forEach( i => { %>
+        <article>
+            <%= i.title %>
+        </article>
+        <% }) %>
+      </section>
     </main>
   </body>
 </html>

@@ -21,7 +21,7 @@ app.use(morgan('tiny'));
 app.get('/', (req, res) => {
     
     // 2. Usar en el home.ejs el forEach para iterar por todas las imágenes de la variable 'images'. Mostrar de momento solo el título 
-    res.render('home', {images: images});
+    res.render('home', {images});
 });
 
 //Cuando nos hagan una petición GET a '/add-image-form' renderizammos image-form.ejs
@@ -42,7 +42,10 @@ app.post('/add-image-form', (req, res) => {
     console.log('array',images)
 
     // 3. Añadir los otros campos del formulario y sus validaciones 
-    res.send('Datos recibidos');
+        // 4julio: Tras insertar una imagen 'dejaremos' el formulario visible 
+    //res.send('Datos recibidos');
+    // Redirect es un método del objecto Response que permite 'redirigir' al cliente a un nuevo endpoint o vista
+    res.redirect('/');
 
 });
 
