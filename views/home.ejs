@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <%- include('./partials/head') %>
+
     <title>Fototeca IronHack 2024</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-    />
+
   </head>
 
   <body>
@@ -19,7 +17,7 @@
       <!--Si no hay imagenes en la fototeca, animamos al usuario a añadir, si hay, mostramos el número de imágenes disponibles-->
       <% if (images.length == 0) { %>
        <p>Todavía no hay imágenes en la fototeca. 
-        <a href="/add-image-form">Añade una hora</a></p>
+        <a href="/add-image-form">Añade una ahora</a></p>
       <% } else { %>
         <p>La fototeca tiene <%= images.length %> imágenes.</p>
         <% } %>
