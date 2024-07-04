@@ -12,17 +12,17 @@
 
   <body>
     <header class="container">
-      <nav>
-        <ul>
-          <li><strong>FOTOTECA </strong></li>
-        </ul>
-        <ul>
-          <li><a href="#">Mostrar Imágenes</a></li>
-          <li><a href="/add-image-form">Añadir Imagen</a></li>
-        </ul>
-      </nav>
+              <!-- Añadir partials con esta sintaxis y la ruta relativa al partial -->
+              <%- include('./partials/nav') %>
     </header>
     <main class="container">
+      <!--Si no hay imagenes en la fototeca, animamos al usuario a añadir, si hay, mostramos el número de imágenes disponibles-->
+      <% if (images.length == 0) { %>
+       <p>Todavía no hay imágenes en la fototeca. 
+        <a href="/add-image-form">Añade una hora</a></p>
+      <% } else { %>
+        <p>La fototeca tiene <%= images.length %> imágenes.</p>
+        <% } %>
           <section class="grid">
           <!-- Estos tags significa que lo que viene a continuación es puro código JavaScript-->
         <% images.forEach( i => { %>

@@ -8,6 +8,9 @@ const app = express();
 //Tenemos que usar nuevo middleware para indicar a Express que queremos procesar petición de tipo POST
 app.use(express.urlencoded({ extended: true }));
 
+// Añadimos el middleware necesario para que el client puedo hacer peticiones GET a los recursos públicos de la carpeta 'public'
+app.use(express.static('public'));
+
 // Base de datos de imágenes
 const images = [];
 
@@ -26,7 +29,9 @@ app.get('/', (req, res) => {
 
 //Cuando nos hagan una petición GET a '/add-image-form' renderizammos image-form.ejs
 app.get('/add-image-form', (req, res) => {
-    res.render('image-form')
+    res.render('image-form',  {
+        isImageAdded: undefined
+    })
 })
 
 // Cuando nos hagan una petición POST a '/add-image-form' tenemos que recibir los datos del formulario y actualizar nuestra "base de datos"
@@ -45,7 +50,9 @@ app.post('/add-image-form', (req, res) => {
         // 4julio: Tras insertar una imagen 'dejaremos' el formulario visible 
     //res.send('Datos recibidos');
     // Redirect es un método del objecto Response que permite 'redirigir' al cliente a un nuevo endpoint o vista
-    res.redirect('/');
+    res.render('image-form', {
+        isImageAdded: true
+    });
 
 });
 
