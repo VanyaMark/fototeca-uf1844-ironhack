@@ -10,3 +10,16 @@
 .alert.success {
     background-color: #04AA6D;
 }
+.alert.failure {
+    background-color: red;
+}
+
+img {
+    aspect-ratio: auto;
+}
+
+.card {
+    max-width: 250px;
+    margin: auto;
+    text-align: center;
+}

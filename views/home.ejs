@@ -24,9 +24,13 @@
           <section class="grid">
           <!-- Estos tags significa que lo que viene a continuación es puro código JavaScript-->
         <% images.forEach( i => { %>
-        <article>
-            <%= i.title %>
+
+          <article class="container-fluid card">
+          <img src="<%= i.imageUrl %>" alt= "<%= i.title %>">            
+            <p><%= i.title %></p>
+            <p><%= i.datePic %></p>
         </article>
+
         <% }) %>
       </section>
     </main>

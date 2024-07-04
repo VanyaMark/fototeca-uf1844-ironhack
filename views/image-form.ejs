@@ -15,19 +15,26 @@
         <%- include('./partials/nav') %>
     </header>
     <form class="container" action="/add-image-form" method="post">
-        <label for="title">Nombre</label>
+        <label for="title">Título</label>
         <input type="text" name="title" id="title" maxlength="30" pattern="[a-zA-Z0-9_]+" required>
+        <label for="imageUrl">Link de la imagen</label>
+        <input type="url" name="imageUrl" id="imageUrl" pattern="https://.*" required>
+        <label for="datePic">Fecha</label>
+        <input type="date" name="datePic" id="datePic" required>
         <input type="submit" value="Añadir">
     </form>
 
         <!-- Mostrar un mensaje de confirmación si el usuario ha insertado correctamente una imagen-->
-         <% if (isImageAdded) { %>
+         <% if (isImageAdded && !imageAlreadyAdded) { %>
           <div id="message" class="container alert success">
             Imagen insertada correctamente
           </div>
+         <% }  else if (imageAlreadyAdded) { %>
+            <div id="duplicated-image-message" class="container alert failure">
+                La imagen <strong><%= duplicatedImageUrl %></strong> ya existe!
+              </div>
          <% } %>
-
-
+          
 </body>
 
 </html>

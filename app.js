@@ -30,28 +30,45 @@ app.get('/', (req, res) => {
 //Cuando nos hagan una petición GET a '/add-image-form' renderizammos image-form.ejs
 app.get('/add-image-form', (req, res) => {
     res.render('image-form',  {
-        isImageAdded: undefined
+        isImageAdded: undefined,
+        imageAlreadyAdded: undefined,
+        duplicatedImageUrl: undefined
     })
 })
 
 // Cuando nos hagan una petición POST a '/add-image-form' tenemos que recibir los datos del formulario y actualizar nuestra "base de datos"
 app.post('/add-image-form', (req, res) => {
     // todos los datos vienen en req.body
-    console.log(req.body);
+   // console.log(req.body);
 
     // 1. Actualizar el array 'images' con la información de req.body
-    const { title } = req.body;
-    images.push({
-        title
-    });
-    console.log('array',images)
+    const { title, imageUrl, datePic } = req.body;
+
+    let imageAlreadyAdded = false;
+    let duplicatedImageUrl = undefined;
+    const isImageAlreadyAdded = images.some(i => i.imageUrl === imageUrl)
+    if (isImageAlreadyAdded) {
+        imageAlreadyAdded = true;
+        duplicatedImageUrl = imageUrl;
+        console.log('imageAlreadyAdded: ', imageAlreadyAdded);
+        console.log('array when imageAdded true: ', images)
+    } else {
+            images.push({
+                title: title.toUpperCase(),
+                imageUrl,
+                datePic
+            });
+            console.log('array',images)
+    }
 
     // 3. Añadir los otros campos del formulario y sus validaciones 
         // 4julio: Tras insertar una imagen 'dejaremos' el formulario visible 
     //res.send('Datos recibidos');
     // Redirect es un método del objecto Response que permite 'redirigir' al cliente a un nuevo endpoint o vista
     res.render('image-form', {
-        isImageAdded: true
+        isImageAdded: true,
+        imageAlreadyAdded,
+        duplicatedImageUrl
     });
 
 });
