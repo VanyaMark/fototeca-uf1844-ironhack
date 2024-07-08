@@ -16,11 +16,11 @@
     </header>
     <form class="container" action="/add-image-form" method="post">
         <label for="title">Título</label>
-        <input type="text" name="title" id="title" maxlength="30" pattern="[a-zA-Z0-9_]+" required>
+        <input type="text" name="title" id="title" maxlength="30" pattern="[a-zA-Z0-9_ ]+" required>
         <label for="imageUrl">Link de la imagen</label>
         <input type="url" name="imageUrl" id="imageUrl" pattern="https://.*" required>
         <label for="datePic">Fecha</label>
-        <input type="date" name="datePic" id="datePic" required>
+        <input type="date" name="datePic" id="datePic" max="<%= today %>" required>
         <input type="submit" value="Añadir">
     </form>
 

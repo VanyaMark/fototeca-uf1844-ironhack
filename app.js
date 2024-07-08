@@ -29,10 +29,15 @@ app.get('/', (req, res) => {
 
 //Cuando nos hagan una petición GET a '/add-image-form' renderizammos image-form.ejs
 app.get('/add-image-form', (req, res) => {
+
+       //Set current date
+   const today = new Date().toISOString().split('T')[0];
+
     res.render('image-form',  {
         isImageAdded: undefined,
         imageAlreadyAdded: undefined,
-        duplicatedImageUrl: undefined
+        duplicatedImageUrl: undefined, 
+        today
     })
 })
 
@@ -40,6 +45,9 @@ app.get('/add-image-form', (req, res) => {
 app.post('/add-image-form', (req, res) => {
     // todos los datos vienen en req.body
    // console.log(req.body);
+
+          //Set current date
+          const today = new Date().toISOString().split('T')[0];
 
     // 1. Actualizar el array 'images' con la información de req.body
     const { title, imageUrl, datePic } = req.body;
@@ -58,7 +66,9 @@ app.post('/add-image-form', (req, res) => {
                 imageUrl,
                 datePic
             });
-            console.log('array',images)
+
+            images.sort((a, b) => new Date(a.datePic) - new Date(b.datePic));
+            console.log('array sorted by date',images)
     }
 
     // 3. Añadir los otros campos del formulario y sus validaciones 
@@ -68,7 +78,8 @@ app.post('/add-image-form', (req, res) => {
     res.render('image-form', {
         isImageAdded: true,
         imageAlreadyAdded,
-        duplicatedImageUrl
+        duplicatedImageUrl, 
+        today
     });
 
 });
