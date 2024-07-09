@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 //Cuando nos hagan una petición GET a '/add-image-form' renderizammos image-form.ejs
 app.get('/add-image-form', (req, res) => {
 
-       //Set current date
+       //Set current date to use to limit the images dates only to today and not the future
    const today = new Date().toISOString().split('T')[0];
 
     res.render('image-form',  {
@@ -46,11 +46,16 @@ app.post('/add-image-form', (req, res) => {
     // todos los datos vienen en req.body
    // console.log(req.body);
 
-          //Set current date
+        //Set current date to use to limit the images dates only to today and not the future, I need to set it both in post and get
           const today = new Date().toISOString().split('T')[0];
 
     // 1. Actualizar el array 'images' con la información de req.body
     const { title, imageUrl, datePic } = req.body;
+
+    //Validación del lado servidor del title
+    if (!title || title.length > 30) {
+        return res.status(400).send('Algo ha salido mal');
+    }
 
     let imageAlreadyAdded = false;
     let duplicatedImageUrl = undefined;
