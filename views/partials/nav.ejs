@@ -1,9 +1,15 @@
 <nav>
-    <ul>
-      <li><strong>FOTOTECA </strong></li>
-    </ul>
-    <ul>
-      <li><a href="/">Mostrar Imágenes</a></li>
-      <li><a href="/add-image-form">Añadir Imagen</a></li>
-    </ul>
-  </nav>
+  <ul>
+    <li><strong>FOTOTECA </strong></li>
+  </ul>
+  <ul>
+    <li><a href="/">Mostrar Imágenes</a></li>
+    <li><a href="/add-image-form">Añadir Imagen</a></li>
+  </ul>
+  <ul>
+    <form class="search-form" action="/search" method="get">
+      <input type="text" name="keyword" id="keyword" placeholder="Buscar" />
+      <input type="submit" value="buscar" />
+    </form>
+  </ul>
+</nav>

@@ -27,6 +27,19 @@ app.get('/', (req, res) => {
     res.render('home', {images});
 });
 
+//New endpoint for the search form
+app.get('/search', (req, res) => {
+    // Extract query string
+    const {keyword } = req.query;
+
+    const searchResult = images.filter(i => i.title.includes(keyword.toUpperCase()));
+
+    res.render('home', {
+        images: searchResult
+    })
+
+})
+
 //Cuando nos hagan una petición GET a '/add-image-form' renderizammos image-form.ejs
 app.get('/add-image-form', (req, res) => {
 
