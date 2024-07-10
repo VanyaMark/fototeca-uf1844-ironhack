@@ -18,6 +18,15 @@ img {
     aspect-ratio: auto;
 }
 
+.image__title {
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.image__date {
+    text-align: center;
+}
+
 .card {
     max-width: 250px;
     margin: auto;
@@ -29,8 +38,27 @@ img {
     gap: 1rem;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+.gallery {
+    display: flex;
+    flex-direction: column;
     gap: 16px;
+}
+
+
+
+
+@media (min-width: 760px) {
+    .gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .gallery__item img {
+        aspect-ratio: 1/1;
+        width: 100%;
+        object-fit: cover;
+        /* Escala y recorta la imagen para llenar el contenedor */
+    }
+
+
 }

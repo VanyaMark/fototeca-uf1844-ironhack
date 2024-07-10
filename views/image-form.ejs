@@ -25,11 +25,11 @@
     </form>
 
         <!-- Mostrar un mensaje de confirmación si el usuario ha insertado correctamente una imagen-->
-         <% if (isImageAdded && !imageAlreadyAdded) { %>
+         <% if (isImageAdded && !isImageAlreadyAdded) { %>
           <div id="message" class="container alert success">
             Imagen insertada correctamente
           </div>
-         <% }  else if (imageAlreadyAdded) { %>
+         <% }  else if (isImageAlreadyAdded) { %>
             <div id="duplicated-image-message" class="container alert failure">
                 La imagen <strong><%= duplicatedImageUrl %></strong> ya existe!
               </div>

@@ -21,18 +21,32 @@
       <% } else { %>
         <p>La fototeca tiene <%= images.length %> imágenes.</p>
         <% } %>
-          <section class="grid">
+          <section class="gallery">
           <!-- Estos tags significa que lo que viene a continuación es puro código JavaScript-->
         <% images.forEach( i => { %>
 
-          <article class="container-fluid card">
+          <article class="gallery__item">
           <img src="<%= i.imageUrl %>" alt= "<%= i.title %>">            
-            <p><%= i.title %></p>
-            <p><%= i.datePic %></p>
+            <p class="image__title"><%= i.title %></p>
+            <p class="image__date"><%= i.datePic %></p>
+            <form action="/images/<%= i.id %>/delete" method="post"
+              onsubmit="confirmDelete(event, '<%= i.title %>')">
+              <input type="submit" value="Delete">
+          </form>
         </article>
 
         <% }) %>
       </section>
     </main>
+    <script>
+      function confirmDelete(event, title) {
+          const mustDelete = confirm(`¿Seguro que quieres borrar la imagen ${title}?`);
+
+          // JavaScript lado cliente: si nos dice que NO quiere borrar la foto tenemos que parar el submit del form
+          if (!mustDelete) {
+              event.preventDefault();
+          }
+      }
+  </script>
   </body>
 </html>
