@@ -2,7 +2,9 @@
 const express = require('express');
 const morgan = require('morgan');
 
-// creamos una instancia del servidor Express
+// The express() function creates an Express application
+// We create our own server named app
+// Express server will be handling requests and responses
 const app = express();
 
 //Tenemos que usar nuevo middleware para indicar a Express que queremos procesar petición de tipo POST
