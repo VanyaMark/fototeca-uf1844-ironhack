@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
     <%- include('./partials/head') %>
 
     <title>Fototeca IronHack 2024</title>
@@ -29,6 +30,13 @@
           <img src="<%= i.imageUrl %>" alt="<%= i.title %>" />
           <p class="image__title"><%= i.title %></p>
           <p class="image__date"><%= i.datePic %></p>
+          <% if (i.tags) { %>
+          <% JSON.parse(i.tags).forEach(tag => { %>
+            <div class="tag">
+              <%= tag.value %>
+            </div>
+          <% }) %>
+          <% } %>
           <div class="dominant-color" style="background-color: <%= i.dominantColor %>;"><%= i.dominantColor %></div>
           <form
             action="/images/<%= i.id %>/delete"

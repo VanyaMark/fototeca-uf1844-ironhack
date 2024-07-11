@@ -2,8 +2,20 @@
 <html lang="en">
 
 <head>
+    <!--Tagify configuration-->
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!--Tagiify end of configuration-->
+
     <%- include('./partials/head') %>
+
     <script defer src="form.js"></script>
+    <script defer src="tagify.js"></script>
 
     <title>Add New Image</title>
 
@@ -19,6 +31,8 @@
         <input type="text" name="title" id="title" maxlength="30" pattern="[a-zA-Z0-9_ ]+" required>
         <label for="imageUrl">Link de la imagen</label>
         <input type="url" name="imageUrl" id="imageUrl" pattern="https://.*" required>
+        <label for="tags">Etiquetas (usa coma para separar las etiquetas):</label>
+        <input type="text" id="tags" name="tags" autofocus>
         <label for="datePic">Fecha</label>
         <input type="date" name="datePic" id="datePic" max="<%= today %>" required>
         <input type="submit" value="Añadir">
@@ -37,4 +51,19 @@
           
 </body>
 
+<script>
+    // Initialize Tagify on the input element
+    document.addEventListener('DOMContentLoaded', function () {
+    const input = document.querySelector('input[name=tags]');
+    new Tagify(input, {
+        delimiters: ", ",
+        pattern: /[a-zA-Z0-9]+/,
+        callbacks: {
+            add: function(e) {
+                console.log("Tag added: ", e.detail);
+            }
+        }
+    });
+});
+</script>
 </html>

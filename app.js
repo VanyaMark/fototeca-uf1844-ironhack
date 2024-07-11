@@ -23,29 +23,25 @@ let images = [
   {
     id: 1,
     title: "happy cat",
-    imageUrl:
-      "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
+    imageUrl: "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
     datePic: "2024-07-03",
   },
   {
     id: 2,
     title: "happy dog",
-    imageUrl:
-      "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    imageUrl: "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     datePic: "2024-02-11",
   },
   {
     id: 3,
     title: "cat snow",
-    imageUrl:
-      "https://images.pexels.com/photos/3923387/pexels-photo-3923387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    imageUrl: "https://images.pexels.com/photos/3923387/pexels-photo-3923387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     datePic: "2024-04-21",
   },
   {
     id: 4,
     title: "camera",
-    imageUrl:
-      "https://images.pexels.com/photos/19607905/pexels-photo-19607905/free-photo-of-photos-and-insta-camera-on-table.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    imageUrl: "https://images.pexels.com/photos/19607905/pexels-photo-19607905/free-photo-of-photos-and-insta-camera-on-table.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
     datePic: "2024-06-24",
   },
 ];
@@ -98,7 +94,7 @@ app.post("/add-image-form", (req, res) => {
   const today = new Date().toISOString().split("T")[0];
 
   // 1. Actualizar el array 'images' con la información de req.body
-  const { title, imageUrl, datePic } = req.body;
+  const { title, imageUrl, tags, datePic } = req.body;
 
   // Incremento la varible id para el obtener el siguiente identificador único
   id++;
@@ -124,6 +120,7 @@ app.post("/add-image-form", (req, res) => {
           title,
           imageUrl,
           datePic,
+          tags,
           dominantColor: `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`
         });
         console.log('images: ', images)
@@ -134,9 +131,6 @@ app.post("/add-image-form", (req, res) => {
         console.log("array sorted by date", images);
       })
       .catch((err) => console.log("Something bad has happened: ", err));
-    
-
- 
   }
 
   // Redirect es un método del objecto Response que permite 'redirigir' al cliente a un nuevo endpoint o vista
