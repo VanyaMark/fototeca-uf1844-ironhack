@@ -45,7 +45,12 @@ img {
 }
 
 .dominant-color {
-    
+    margin: 2rem;
+    color: white;
+    border-radius: 2px;
+    padding: 2px 4px;
+    text-align: center;
+    text-transform: uppercase;
 }
 
 

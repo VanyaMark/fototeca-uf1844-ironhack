@@ -127,12 +127,16 @@ app.post("/add-image-form", (req, res) => {
           dominantColor: `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`
         });
         console.log('images: ', images)
+        return images
+      })
+      .then((images) => {
+        images.sort((a, b) => new Date(a.datePic) - new Date(b.datePic));
+        console.log("array sorted by date", images);
       })
       .catch((err) => console.log("Something bad has happened: ", err));
     
 
-    images.sort((a, b) => new Date(a.datePic) - new Date(b.datePic));
-    console.log("array sorted by date", images);
+ 
   }
 
   // Redirect es un método del objecto Response que permite 'redirigir' al cliente a un nuevo endpoint o vista
