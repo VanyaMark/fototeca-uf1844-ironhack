@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
     <%- include('./partials/head') %>
 
     <title>Fototeca IronHack 2024</title>
-
   </head>
 
   <body>
     <header class="container">
-              <!-- Añadir partials con esta sintaxis y la ruta relativa al partial -->
-              <%- include('./partials/nav') %>
+      <!-- Añadir partials con esta sintaxis y la ruta relativa al partial -->
+      <%- include('./partials/nav') %>
     </header>
     <main class="container">
       <!--Si no hay imagenes en la fototeca, animamos al usuario a añadir, si hay, mostramos el número de imágenes disponibles-->
       <% if (images.length == 0) { %>
-       <p>Todavía no hay imágenes en la fototeca. 
-        <a href="/add-image-form">Añade una ahora</a></p>
+      <p>
+        Todavía no hay imágenes en la fototeca.
+        <a href="/add-image-form">Añade una ahora</a>
+      </p>
       <% } else { %>
-        <p>La fototeca tiene <%= images.length %> imágenes.</p>
-        <% } %>
-          <section class="gallery">
-          <!-- Estos tags significa que lo que viene a continuación es puro código JavaScript-->
+      <p>La fototeca tiene <%= images.length %> imágenes.</p>
+      <% } %>
+      <section class="gallery">
+        <!-- Estos tags significa que lo que viene a continuación es puro código JavaScript-->
         <% images.forEach( i => { %>
 
-          <article class="gallery__item">
-          <img src="<%= i.imageUrl %>" alt= "<%= i.title %>">            
-            <p class="image__title"><%= i.title %></p>
-            <p class="image__date"><%= i.datePic %></p>
-            <form action="/images/<%= i.id %>/delete" method="post"
-              onsubmit="confirmDelete(event, '<%= i.title %>')">
-              <input type="submit" value="Delete">
+        <article class="gallery__item">
+          <img src="<%= i.imageUrl %>" alt="<%= i.title %>" />
+          <p class="image__title"><%= i.title %></p>
+          <p class="image__date"><%= i.datePic %></p>
+          <div class="dominant-color" style="width:100px; height:100px; border-radius: 50%; background-color: <%= i.dominantColor %>;"></div>
+          <form
+            action="/images/<%= i.id %>/delete"
+            method="post"
+            onsubmit="confirmDelete(event, '<%= i.title %>')"
+          >
+            <input type="submit" value="Delete" />
           </form>
         </article>
 
@@ -40,13 +44,15 @@
     </main>
     <script>
       function confirmDelete(event, title) {
-          const mustDelete = confirm(`¿Seguro que quieres borrar la imagen ${title}?`);
+        const mustDelete = confirm(
+          `¿Seguro que quieres borrar la imagen ${title}?`
+        );
 
-          // JavaScript lado cliente: si nos dice que NO quiere borrar la foto tenemos que parar el submit del form
-          if (!mustDelete) {
-              event.preventDefault();
-          }
+        // JavaScript lado cliente: si nos dice que NO quiere borrar la foto tenemos que parar el submit del form
+        if (!mustDelete) {
+          event.preventDefault();
+        }
       }
-  </script>
+    </script>
   </body>
 </html>
