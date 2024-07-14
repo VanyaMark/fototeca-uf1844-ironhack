@@ -46,6 +46,9 @@ let images = [
   },
 ];
 
+// Initialize tagsArr as a Set
+let tagsArr = new Set();
+
 // Especificar a Express que quiero usar EJS como motor de plantillas
 app.set("view engine", "ejs");
 
@@ -55,7 +58,7 @@ app.use(morgan("tiny"));
 // Cuando nos hagan una petición GET a '/' renderizamos la home.ejs
 app.get("/", (req, res) => {
   // 2. Usar en el home.ejs el forEach para iterar por todas las imágenes de la variable 'images'. Mostrar de momento solo el título
-  res.render("home", { images });
+  res.render("home", { images, tagsArr });
 });
 
 //New endpoint for the search form
@@ -123,8 +126,23 @@ app.post("/add-image-form", (req, res) => {
           tags,
           dominantColor: `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`
         });
-        console.log('images: ', images)
+
         return images
+      })
+      .then((images) => {
+        // Parse tags and add them to tagsArr Set
+        let imageTags = JSON.parse(tags);
+        console.log('imageTags: ', imageTags);
+        console.log('imageTags[0].value', imageTags[0].value);
+        
+        imageTags.forEach(tag => {
+          tagsArr.add(tag.value);
+        });
+
+        // Log the updated tagsArr
+        console.log('tagsArr: ', Array.from(tagsArr));
+        
+        return images;
       })
       .then((images) => {
         images.sort((a, b) => new Date(a.datePic) - new Date(b.datePic));
@@ -139,6 +157,7 @@ app.post("/add-image-form", (req, res) => {
     isImageAlreadyAdded,
     duplicatedImageUrl,
     today,
+    tagsArr
   });
 });
 

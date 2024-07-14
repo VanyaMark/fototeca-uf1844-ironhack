@@ -21,6 +21,19 @@
       <% } else { %>
       <p>La fototeca tiene <%= images.length %> imágenes.</p>
       <% } %>
+
+      <p>
+        <%= tagsArr[0] %>
+      </p>
+      <!--Add select that receives tags from tagsArr and client can filter by tags-->
+      <% if (tagsArr.length > 0) { %> 
+        <select name="select" aria-label="Select" required>
+          <option selected disabled value="">Ver por etiqueta</option>
+          <% tagsArr.forEach(tag => { %>
+            <option><%= tag %></option>
+          <% }) %>
+        </select>
+      <% } %>
       <section class="gallery">
         <!-- Estos tags significa que lo que viene a continuación es puro código JavaScript-->
         <% images.forEach( i => { %>
