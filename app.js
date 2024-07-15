@@ -27,25 +27,30 @@ let images = [
   {
     id: 1,
     title: "happy cat",
-    imageUrl: "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
+    imageUrl:
+      "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
     datePic: "2024-07-03",
+
   },
   {
     id: 2,
     title: "happy dog",
-    imageUrl: "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    imageUrl:
+      "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     datePic: "2024-02-11",
   },
   {
     id: 3,
     title: "cat snow",
-    imageUrl: "https://images.pexels.com/photos/3923387/pexels-photo-3923387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    imageUrl:
+      "https://images.pexels.com/photos/3923387/pexels-photo-3923387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     datePic: "2024-04-21",
   },
   {
     id: 4,
     title: "camera",
-    imageUrl: "https://images.pexels.com/photos/19607905/pexels-photo-19607905/free-photo-of-photos-and-insta-camera-on-table.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    imageUrl:
+      "https://images.pexels.com/photos/19607905/pexels-photo-19607905/free-photo-of-photos-and-insta-camera-on-table.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
     datePic: "2024-06-24",
   },
 ];
@@ -62,6 +67,7 @@ app.use(morgan("tiny"));
 // Cuando nos hagan una petición GET a '/' renderizamos la home.ejs
 app.get("/", (req, res) => {
   // 2. Usar en el home.ejs el forEach para iterar por todas las imágenes de la variable 'images'. Mostrar de momento solo el título
+  console.log("tagsArr del Home: ", tagsArr.values());
   res.render("home", { images, tagsArr });
 });
 
@@ -128,41 +134,43 @@ app.post("/add-image-form", (req, res) => {
           imageUrl,
           datePic,
           tags,
-          dominantColor: `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`
+          dominantColor: `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`,
         });
 
-        return images
+        return images;
       })
       .then((images) => {
         // Parse tags and add them to tagsArr Set
         let imageTags = JSON.parse(tags);
-        console.log('imageTags: ', imageTags);
-        console.log('imageTags[0].value', imageTags[0].value);
-        
-        imageTags.forEach(tag => {
+        console.log("imageTags: ", imageTags);
+        console.log("imageTags[0].value", imageTags[0].value);
+
+        imageTags.forEach((tag) => {
           tagsArr.add(tag.value);
         });
 
         // Log the updated tagsArr
-        console.log('tagsArr: ', Array.from(tagsArr));
-        
+        console.log("tagsArr: ", tagsArr);
+
         return images;
       })
       .then((images) => {
         images.sort((a, b) => new Date(a.datePic) - new Date(b.datePic));
-        console.log("array sorted by date", images);
+        //   console.log("array sorted by date", images);
+        return images;
+      })
+      .then((images) => {
+        // Redirect es un método del objecto Response que permite 'redirigir' al cliente a un nuevo endpoint o vista
+        res.render("image-form", {
+          isImageAdded: true,
+          isImageAlreadyAdded,
+          duplicatedImageUrl,
+          today,
+          tagsArr,
+        });
       })
       .catch((err) => console.log("Something bad has happened: ", err));
   }
-
-  // Redirect es un método del objecto Response que permite 'redirigir' al cliente a un nuevo endpoint o vista
-  res.render("image-form", {
-    isImageAdded: true,
-    isImageAlreadyAdded,
-    duplicatedImageUrl,
-    today,
-    tagsArr
-  });
 });
 
 // endpoint para borrar la imagen
