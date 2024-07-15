@@ -18,6 +18,10 @@ app.use(express.static("public"));
 
 // Forma más simple. Variable global para saber cual es el siguiente Id que nos tocan
 let id = 5;
+
+// Variable para indicar en qué puerto tiene que escuchar nuestra app
+const PORT = process.env.PORT || 3000;
+
 //Base de datos
 let images = [
   {
@@ -180,6 +184,6 @@ app.post("/images/:id/delete", (req, res) => {
 // en el futuro es normal que tengamos endpoints como
 // app.get('/edit-image-form')
 
-app.listen(3000, (req, res) => {
-  console.log("Servidor escuchando correctamente en el puerto 3000.");
+app.listen(PORT, (req, res) => {
+  console.log("Servidor escuchando correctamente en el puerto " + PORT);
 });
