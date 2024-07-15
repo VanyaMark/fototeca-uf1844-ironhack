@@ -30,7 +30,6 @@ let images = [
     imageUrl:
       "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
     datePic: "2024-07-03",
-
   },
   {
     id: 2,
@@ -82,6 +81,26 @@ app.get("/search", (req, res) => {
 
   res.render("home", {
     images: searchResult,
+    tagsArr,
+  });
+});
+
+//New endpoint for filter form
+app.get("/filter", (req, res) => {
+  const { selectedTag } = req.query;
+
+  // Use the selectedTag to filter or perform any necessary operations
+  console.log("Selected tag:", selectedTag);
+  console.log("blah");
+
+  const filteredImages = images.filter((image) => {
+    // Use some method to check if any tag.value matches selectedTag
+    return image.imageTags.some((tag) => tag.value === selectedTag);
+  });
+  
+  res.render("home", {
+    images: filteredImages,
+    tagsArr,
   });
 });
 
@@ -156,7 +175,7 @@ app.post("/add-image-form", (req, res) => {
       })
       .then((images) => {
         images.sort((a, b) => new Date(a.datePic) - new Date(b.datePic));
-        //   console.log("array sorted by date", images);
+        console.log("array sorted by date", images);
         return images;
       })
       .then((images) => {

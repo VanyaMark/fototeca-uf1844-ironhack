@@ -23,14 +23,18 @@
       <% } %>
 
       <!--Add select that receives tags from tagsArr and client can filter by tags-->
-      <% if (tagsArr.size > 0) { %>
-      <select name="select" aria-label="Select" required>
-        <option selected disabled value="">Ver por etiqueta</option>
-        <% tagsArr.forEach(tag => { %>
-        <option> <%= tag %></option>
-        <% }) %>
-      </select>
-      <% } %>
+      <form action="/filter" method="get" id="filterForm">
+        <% if (tagsArr.size > 0) { %>
+        <select name="selectedTag" aria-label="Select" required>
+          <option selected disabled value="">Ver por etiqueta</option>
+          <% tagsArr.forEach(tag => { %>
+          <option value="<%= tag %>" onchange="filterImages()">
+            <%= tag %>
+          </option>
+          <% }) %>
+        </select>
+        <% } %>
+      </form>
       <section class="gallery">
         <!-- Estos tags significa que lo que viene a continuación es puro código JavaScript-->
         <% images.forEach( i => { %>
@@ -74,6 +78,9 @@
         if (!mustDelete) {
           event.preventDefault();
         }
+      }
+      function filterImages() {
+        document.getElementById("filterForm").submit();
       }
     </script>
   </body>
