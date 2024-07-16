@@ -23,36 +23,38 @@ let id = 5;
 const PORT = process.env.PORT || 3000;
 
 //Base de datos
-let images = [
-  {
-    id: 1,
-    title: "happy cat",
-    imageUrl:
-      "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
-    datePic: "2024-07-03",
-  },
-  {
-    id: 2,
-    title: "happy dog",
-    imageUrl:
-      "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    datePic: "2024-02-11",
-  },
-  {
-    id: 3,
-    title: "cat snow",
-    imageUrl:
-      "https://images.pexels.com/photos/3923387/pexels-photo-3923387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    datePic: "2024-04-21",
-  },
-  {
-    id: 4,
-    title: "camera",
-    imageUrl:
-      "https://images.pexels.com/photos/19607905/pexels-photo-19607905/free-photo-of-photos-and-insta-camera-on-table.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-    datePic: "2024-06-24",
-  },
-];
+// let images = [
+//   {
+//     id: 1,
+//     title: "happy cat",
+//     imageUrl:
+//       "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
+//     datePic: "2024-07-03",
+//   },
+//   {
+//     id: 2,
+//     title: "happy dog",
+//     imageUrl:
+//       "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+//     datePic: "2024-02-11",
+//   },
+//   {
+//     id: 3,
+//     title: "cat snow",
+//     imageUrl:
+//       "https://images.pexels.com/photos/3923387/pexels-photo-3923387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+//     datePic: "2024-04-21",
+//   },
+//   {
+//     id: 4,
+//     title: "camera",
+//     imageUrl:
+//       "https://images.pexels.com/photos/19607905/pexels-photo-19607905/free-photo-of-photos-and-insta-camera-on-table.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+//     datePic: "2024-06-24",
+//   },
+// ];
+
+let images = [];
 
 // Initialize tagsArr as a Set
 let tagsArr = new Set();
@@ -95,7 +97,12 @@ app.get("/filter", (req, res) => {
 
   const filteredImages = images.filter((image) => {
     // Use some method to check if any tag.value matches selectedTag
-    return image.imageTags.some((tag) => tag.value === selectedTag);
+    
+    const tagsArray = JSON.parse(image.tags);
+    console.log('image ', image)
+    console.log('image.tags ', image.tags)
+
+    return tagsArray.some((tag) => tag.value === selectedTag);
   });
   
   res.render("home", {
