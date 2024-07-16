@@ -47,6 +47,7 @@ Fototeca IronHack 2024 is a web application built using Node.js, Express, and EJ
 
 ## Project Structure
 
+```
 fototeca-ironhack-2024/
 ├── public/
 │ ├── styles.css
@@ -61,6 +62,7 @@ fototeca-ironhack-2024/
 ├── app.js
 ├── package.json
 └── README.md
+```
 
 ## Routes
 
