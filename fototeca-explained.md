@@ -56,25 +56,116 @@
     - Deconstruct `req.body` to get form data. Validate input and check for duplicates:
 
       ```javascript
-      const isImageAlreadyAdded = images.some(i => i.imageUrl === imageUrl);
-      if (isImageAlreadyAdded) {
-        res.render("image-form", { error: "Image URL already exists." });
-      } else {
-        // Use color-thief-node to get the dominant color
-        // Process tags from Tagify component
-        // Add new image to images array and sort by date
-      }
+      app.post("/add-image-form", async (req, res) => {
+        const { title, imageUrl, date, tags } = req.body;
+        const isImageAlreadyAdded = images.some(i => i.imageUrl === imageUrl);
+
+        if (isImageAlreadyAdded) {
+          return res.render("image-form", { error: "Image URL already exists." });
+        }
+
+        try {
+          const dominantColor = await getDominantColor(imageUrl);
+          const tagsArray = JSON.parse(tags);
+          tagsArray.forEach(tag => tagsArr.add(tag));
+          images.push({ id: generateId(), title, imageUrl, date, tags: tagsArray, color: dominantColor });
+          images.sort((a, b) => new Date(b.date) - new Date(a.date));
+          res.redirect("/");
+        } catch (error) {
+          res.render("image-form", { error: "Error processing image." });
+        }
+      });
       ```
 
-    - Handle errors and manage duplicate URLs. Use promises to handle asynchronous operations:
+### Error Management
 
-      ```javascript
-      // Color-thief-node and tag processing
-      ```
+- **Server-Side Validation**:
+  - Ensure that the `title` is present and meets the minimum length requirement. This validation is done on the server side:
+
+    ```javascript
+    if (!title || title.length < 3) {
+      return res.render("image-form", { error: "Title is required and should be at least 3 characters long." });
+    }
+    ```
+
+- **Client-Side Validation**:
+  - **Title Symbols**: Use the `pattern` attribute in HTML to ensure that the title contains only alphanumeric characters and spaces:
+
+    ```html
+    <input type="text" name="title" pattern="[a-zA-Z0-9_ ]+" required>
+    ```
+
+  - **Image URL**: Validate the URL to ensure it starts with `https://`:
+
+    ```html
+    <input type="url" name="imageUrl" pattern="https://.*" required>
+    ```
+
+  - **Date**: Limit the date input to today or future dates:
+
+    ```html
+    <input type="date" name="date" max="<%= today %>" required>
+    ```
+
+- **Duplicate Image URL Check**:
+  - Check if the `imageUrl` already exists in the `images` array. If it does, render an error message:
+
+    ```javascript
+    const isImageAlreadyAdded = images.some(i => i.imageUrl === imageUrl);
+    if (isImageAlreadyAdded) {
+      res.render("image-form", { error: "Image URL already exists." });
+    }
+    ```
+
+- **Using Color-Thief and Tagify**:
+  - **Color-Thief**: Use the `color-thief-node` package to get the dominant color of the image. Handle the promise to ensure the color is added correctly:
+
+    ```javascript
+    const getDominantColor = require('color-thief-node');
+    getDominantColor(imageUrl).then(color => {
+      // Proceed with image processing
+    }).catch(err => {
+      // Handle errors
+    });
+    ```
+
+  - **Tagify**: Parse the tags JSON string received from Tagify. Add tags to a `Set` to ensure uniqueness:
+
+    ```javascript
+    new Promise((resolve, reject) => {
+      const tagsArray = JSON.parse(tags);
+      tagsArray.forEach(tag => tagsArr.add(tag));
+      resolve();
+    });
+    ```
+
+### Sorting and Rendering
+
+- **Sorting**:
+  - Sort the `images` array by date to display them in chronological order:
+
+    ```javascript
+    images.sort((a, b) => new Date(b.date) - new Date(a.date));
+    ```
+
+- **Rendering the Form**:
+  - After processing and sorting the images, render the `image-form` view with all necessary variables:
+
+    ```javascript
+    res.render("image-form", { images, tagsArr: [...tagsArr] });
+    ```
+
+- **Error Handling**:
+  - Catch any errors during image processing or color fetching. Provide a fallback mechanism to handle issues gracefully:
+
+    ```javascript
+    .catch(error => {
+      res.render("image-form", { error: "Error processing image." });
+    });
+    ```
 
 - **Delete Image Route (`/images/:id/delete`)**
-  - Define a POST route with a dynamic segment to delete an image by its ID.
-  - Use `req.params` to get the image ID and remove it from the `images` array:
+  - Define a POST route with a dynamic segment to delete an image by its ID. Remove the image from the `images` array:
 
     ```javascript
     app.post("/images/:id/delete", (req, res) => {
@@ -84,4 +175,9 @@
     });
     ```
 
-This documentation outlines the setup, routes, and data management for the Fototeca application, providing a clear explanation of the server-side logic and template rendering.
+This documentation provides a comprehensive overview of the Fototeca application, covering setup, routes, error management, and handling asynchronous operations. It ensures that the application runs smoothly and provides a good user experience.
+
+
+
+
+
